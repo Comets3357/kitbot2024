@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-<<<<<<< HEAD
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -21,7 +20,6 @@ import edu.wpi.first.wpilibj.Timer;
  * name of this class or
  * the package after creating this project, you must also update the
  * build.gradle file in the
-=======
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
  * project.
  */
 public class Robot extends TimedRobot {
@@ -44,7 +41,6 @@ public class Robot extends TimedRobot {
   private final PWMSparkMax leftBack = new PWMSparkMax(3);
   private final PWMSparkMax rightBack = new PWMSparkMax(4);
 
-<<<<<<< HEAD
   PWMSparkMax m_frontLeft = new PWMSparkMax(1);
   PWMSparkMax m_rearLeft = new PWMSparkMax(2);
   PWMSparkMax m_frontRight = new PWMSparkMax(3);
@@ -57,11 +53,9 @@ public class Robot extends TimedRobot {
   /**
    * This function is run when the robot is first started up and should be used
    * for any
-=======
   private final MotorController leftMotors = new MotorControllerGroup(leftFront, leftBack);
   /**
    * This function is run when the robot is first started up and should be used for any
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
    * initialization code.
    */
   @Override
@@ -70,7 +64,6 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-<<<<<<< HEAD
     m_rearLeft.addFollower(m_frontLeft);
     m_rearRight.addFollower(m_frontRight);
 
@@ -80,15 +73,12 @@ public class Robot extends TimedRobot {
     rightBack.setInverted(false);
 
     timer1.start();
-=======
     leftFront.setInverted(true);
     leftBack.setInverted(true);
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
 
   }
 
   /**
-<<<<<<< HEAD
    * This function is called every 20 ms, no matter the mode. Use this for items
    * like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -120,7 +110,6 @@ public class Robot extends TimedRobot {
    * switch structure
    * below with additional strings. If using the SendableChooser make sure to add
    * them to the
-=======
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
    *
@@ -138,7 +127,6 @@ public class Robot extends TimedRobot {
    *
    * <p>You can add additional auto modes by adding additional comparisons to the switch structure
    * below with additional strings. If using the SendableChooser make sure to add them to the
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
    * chooser code above as well.
    */
   @Override
@@ -146,11 +134,8 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-<<<<<<< HEAD
 
     timer1.reset();
-=======
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
   }
 
   /** This function is called periodically during autonomous. */
@@ -162,7 +147,6 @@ public class Robot extends TimedRobot {
         break;
       case kDefaultAuto:
       default:
-<<<<<<< HEAD
         myDrive.tankDrive(.3, .3);
         break;
     }
@@ -208,7 +192,6 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {
   }
 }
-=======
         leftFront.set(.5);
         rightFront.set(.5);
         leftBack.set(.5);
@@ -251,5 +234,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-}
->>>>>>> cf67e01433136987bb58def75984c391dcd16008
+
