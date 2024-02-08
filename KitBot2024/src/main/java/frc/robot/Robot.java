@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private final PWMSparkMax leftBack = new PWMSparkMax(3);
   private final PWMSparkMax rightBack = new PWMSparkMax(4);
 
-  private final MotorController lefMotorController
+  private final MotorController leftMotors = new MotorControllerGroup(leftFront, leftBack);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
