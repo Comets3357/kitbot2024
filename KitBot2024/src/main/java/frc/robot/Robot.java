@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,7 +31,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kSpeakerMid = "Speaker Middle";
-  private static final String kRedLongAuto = "Red Long Auto";
+  private static final String kRedLongAuto = "Red Long Speaker and Backup";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -52,6 +53,14 @@ public class Robot extends TimedRobot {
   private final PWMSparkMax FeedWheel = new PWMSparkMax(5);
   private final PWMSparkMax LaunchWheel = new PWMSparkMax(6);
 
+  private final XboxController driverController = new XboxController(0);
+  private final XboxController operatorController = new XboxController(1);
+
+  double driveLimit = 1;
+  double launchPower = 0;
+  double feedPower = 0; 
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -64,7 +73,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("Speaker middle", kSpeakerMid);
-    m_chooser.addOption(name:"Red," kRedLongAuto);
+    m_chooser.addOption("Red Long Speaker and Backup", kRedLongAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
     m_rearLeft.addFollower(m_frontLeft);
@@ -132,7 +141,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kRedLongAuto
+      case kRedLongAuto:
         if(timer1.get()< 1)
         {
           LaunchWheel.set(1);
@@ -174,7 +183,41 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+        //drive train
+    //myDrive.tankDrive(-driverController.getLeftY(), -driverController.getRightY());
+    myDrive.arcadeDrive(-driverController.getLeftY()*driveLimit, -driverController.getRightX()*driveLimit);
+
+    if(driverController.getRightBumper()){
+      driveLimit = 1;
+    } else if(driverController.getLeftBumper()){
+      driveLimit = .5; 
+    }
+
+    //launcher
+        if(operatorController.getLeftBumper()){
+          launchPower = -1;
+          feedPower = -.2;
+        } else{
+            if (operatorController.getAButton() == true) {
+              timer1.reset();
+            }
+            if (timer1.get() < 1.0){  //spool launch wheel
+               launchPower = 1;
+               feedPower = 0;
+            }
+            else if (timer1.get() < 2.0){  //launch 
+               launchPower = 1;
+               feedPower = 1;
+            }
+            else if (timer1.get() < 3.0){  //launch 
+               launchPower = 0;
+               feedPower = 0;
+            }
+        }
+        LaunchWheel.set(launchPower);
+        FeedWheel.set(feedPower); 
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
