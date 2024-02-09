@@ -133,18 +133,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kRedLongAuto
-      
-       break;
-      case kSpeakerMid: // start middle speaker lauch & back up
         if(timer1.get()< 1)
         {
           LaunchWheel.set(1);
           
         }
-        else if(timer1.get()< 1.75)
+        else if(timer1.get()< 3.0)
         {
           LaunchWheel.set(1);
-          FeedWheel.set(1);
+          FeedWheel.set(0);
         }
         else if(timer1.get()<5.0){
           LaunchWheel.set(0);
@@ -156,7 +153,9 @@ public class Robot extends TimedRobot {
           FeedWheel.set(0);
         }
         break;
+      case kSpeakerMid: // start middle speaker lauch & back up
       case kDefaultAuto:
+      break;
       default:
         if(timer1.get() < 2.0)
         {
