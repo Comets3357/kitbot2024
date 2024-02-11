@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
 import edu.wpi.first.wpilibj.XboxController;
+
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,23 +39,19 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final PWMSparkMax leftFront = new PWMSparkMax(1);
-  private final PWMSparkMax rightFront = new PWMSparkMax(2);
-  private final PWMSparkMax leftBack = new PWMSparkMax(3);
-  private final PWMSparkMax rightBack = new PWMSparkMax(4);
+  private TalonSRX leftFront; 
+  private TalonSRX rightFront;
+  private TalonSRX leftBack;
+  private TalonSRX rightBack;
 
 
-  PWMSparkMax m_frontLeft = new PWMSparkMax(1);
-  PWMSparkMax m_rearLeft = new PWMSparkMax(2);
-  PWMSparkMax m_frontRight = new PWMSparkMax(3);
-  PWMSparkMax m_rearRight = new PWMSparkMax(4);
-
-  private final DifferentialDrive myDrive = new DifferentialDrive(m_frontLeft, m_frontRight);
+ 
+  
 
   private final Timer timer1 = new Timer();
 
-  private final PWMSparkMax FeedWheel = new PWMSparkMax(5);
-  private final PWMSparkMax LaunchWheel = new PWMSparkMax(6);
+  private final TalonSRX FeedWheel = new TalonSRX(5);
+  private final TalonSRX LaunchWheel = new TalonSRX(6);
 
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
@@ -76,16 +76,27 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Red Long Speaker and Backup", kRedLongAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    m_rearLeft.addFollower(m_frontLeft);
-    m_rearRight.addFollower(m_frontRight);
+    leftFront = new TalonSRX(1);
+    rightFront = new TalonSRX(2);
+    leftBack = new TalonSRX(3);
+    rightBack = new TalonSRX(4);
 
     leftFront.setInverted(true);
     leftBack.setInverted(true);
     rightFront.setInverted(false);
     rightBack.setInverted(false);
 
+    leftBack.follow(leftFront);
+    rightBack.follow(rightFront);
+
+    
+    // DifferentialDrive drive = new DifferentialDrive(leftFront, rightFront);
+    // drive.arcadeDrive(0.5, 0.5);
+    
     FeedWheel.setInverted(true);
     LaunchWheel.setInverted(true);
+
+
 
     timer1.start();
   }
@@ -103,8 +114,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    m_frontLeft.set(m_rearLeft.get());
-    m_frontRight.set(m_rearRight.get());
+    leftFront.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
+    rightFront.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
+
+    FeedWheel.set(TalonSRXControlMode.PercentOutput, operatorController.getLeftY());
+    LaunchWheel.set(TalonSRXControlMode.PercentOutput, operatorController.getRightY());
   }
 
   /**
@@ -140,42 +154,42 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    // switch (m_autoSelected) {
-    //   case kRedLongAuto:
-    //     if(timer1.get()< 1)
-    //     {
-    //       LaunchWheel.set(1);
+    //  switch (m_autoSelected) {
+    //    case kRedLongAuto:
+    //      if(timer1.get()< 1)
+    //      {
+    //        LaunchWheel.set(1);
           
-    //     }
-    //     else if(timer1.get()< 3.0)
-    //     {
-    //       LaunchWheel.set(1);
+    //      }
+    //      else if(timer1.get()< 3.0)
+    //      {
+    //        LaunchWheel.set(1);
+    //        FeedWheel.set(0);
+    //      }
+    //      else if(timer1.get()<5.0){
+    //        LaunchWheel.set(0);
     //       FeedWheel.set(0);
+    //        myDrive.tankDrive(0, 0);
     //     }
-    //     else if(timer1.get()<5.0){
-    //       LaunchWheel.set(0);
-    //       FeedWheel.set(0);
-    //       myDrive.tankDrive(0, 0);
-    //     }
-    //     else{
-    //       LaunchWheel.set(0);
-    //       FeedWheel.set(0);
+    //      else{
+    //        LaunchWheel.set(0);
+    //        FeedWheel.set(0);
     //     }
     //     break;
-      case kSpeakerMid: // start middle speaker lauch & back up
-      case kDefaultAuto:
-      break;
-      default:
-        if(timer1.get() < 5.0)
-        {
-          myDrive.tankDrive(.4, .4);
-        }
-        else
-        {
-          myDrive.tankDrive(0, 0);
-        }
-        break;
-    }
+    //   case kSpeakerMid: // start middle speaker lauch & back up
+    //   case kDefaultAuto:
+    //   break;
+    //   default:
+    //     if(timer1.get() < 5.0)
+    //     {
+    //       myDrive.tankDrive(.4, .4);
+    //     }
+    //     else
+    //     {
+    //       myDrive.tankDrive(0, 0);
+    //     }
+    //     break;
+    // }
   }
   /** This function is called once when teleop is enabled. */
   @Override
@@ -186,37 +200,37 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
         //drive train
     //myDrive.tankDrive(-driverController.getLeftY(), -driverController.getRightY());
-    myDrive.arcadeDrive(-driverController.getLeftY()*driveLimit, -driverController.getRightX()*driveLimit);
+    // myDrive.arcadeDrive(-driverController.getLeftY()*driveLimit, -driverController.getRightX()*driveLimit);
 
-    if(driverController.getRightBumper()){
-      driveLimit = 1;
-    } else if(driverController.getLeftBumper()){
-      driveLimit = .5; 
-    }
+    // if(driverController.getRightBumper()){
+    //   driveLimit = 1;
+    // } else if(driverController.getLeftBumper()){
+    //   driveLimit = .5; 
+    // }
 
-    //launcher
-        if(operatorController.getLeftBumper()){
-          launchPower = -1;
-          feedPower = -.2;
-        } else{
-            if (operatorController.getAButton() == true) {
-              timer1.reset();
-            }
-            if (timer1.get() < 1.0){  //spool launch wheel
-               launchPower = 1;
-               feedPower = 0;
-            }
-            else if (timer1.get() < 2.0){  //launch 
-               launchPower = 1;
-               feedPower = 1;
-            }
-            else if (timer1.get() < 3.0){  //launch 
-               launchPower = 0;
-               feedPower = 0;
-            }
-        }
-        LaunchWheel.set(launchPower);
-        FeedWheel.set(feedPower); 
+    // //launcher
+    //     if(operatorController.getLeftBumper()){
+    //       launchPower = -1;
+    //       feedPower = -.2;
+    //     } else{
+    //         if (operatorController.getAButton() == true) {
+    //           timer1.reset();
+    //         }
+    //         if (timer1.get() < 1.0){  //spool launch wheel
+    //            launchPower = 1;
+    //            feedPower = 0;
+    //         }
+    //         else if (timer1.get() < 2.0){  //launch 
+    //            launchPower = 1;
+    //            feedPower = 1;
+    //         }
+    //         else if (timer1.get() < 3.0){  //launch 
+    //            launchPower = 0;
+    //            feedPower = 0;
+    //         }
+    //     }
+        // LaunchWheel.set(launchPower);
+        // FeedWheel.set(feedPower); 
   }
 
   /** This function is called once when the robot is disabled. */
