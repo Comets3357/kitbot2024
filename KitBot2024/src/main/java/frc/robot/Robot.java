@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -50,8 +52,8 @@ public class Robot extends TimedRobot {
 
   private final Timer timer1 = new Timer();
 
-  private final TalonSRX FeedWheel = new TalonSRX(5);
-  private final TalonSRX LaunchWheel = new TalonSRX(6);
+  private final VictorSPX FeedWheel = new VictorSPX(5);
+  private final VictorSPX LaunchWheel = new VictorSPX(6);
 
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
@@ -77,8 +79,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     leftFront = new TalonSRX(1);
-    rightFront = new TalonSRX(2);
-    leftBack = new TalonSRX(3);
+    leftBack = new TalonSRX(2);
+    rightFront = new TalonSRX(3);
     rightBack = new TalonSRX(4);
 
     leftFront.setInverted(true);
@@ -86,8 +88,6 @@ public class Robot extends TimedRobot {
     rightFront.setInverted(false);
     rightBack.setInverted(false);
 
-    leftBack.follow(leftFront);
-    rightBack.follow(rightFront);
 
     
     // DifferentialDrive drive = new DifferentialDrive(leftFront, rightFront);
@@ -116,9 +116,11 @@ public class Robot extends TimedRobot {
 
     leftFront.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
     rightFront.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
+    leftBack.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
+    rightBack.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
 
-    FeedWheel.set(TalonSRXControlMode.PercentOutput, operatorController.getLeftY());
-    LaunchWheel.set(TalonSRXControlMode.PercentOutput, operatorController.getRightY());
+    FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
+    LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
   }
 
   /**
