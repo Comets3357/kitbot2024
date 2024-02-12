@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
     leftBack = new TalonSRX(2);
     rightFront = new TalonSRX(3);
     rightBack = new TalonSRX(4);
+    climber = new TalonSRX(7);
 
     leftFront.setInverted(true);
     leftBack.setInverted(true);
