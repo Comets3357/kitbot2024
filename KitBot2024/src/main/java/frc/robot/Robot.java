@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
 import edu.wpi.first.wpilibj.XboxController;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -45,7 +46,7 @@ public class Robot extends TimedRobot {
   private TalonSRX rightFront;
   private TalonSRX leftBack;
   private TalonSRX rightBack;
-
+  private TalonSRX climber;
 
  
   
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
 
   private final VictorSPX FeedWheel = new VictorSPX(5);
   private final VictorSPX LaunchWheel = new VictorSPX(6);
+
 
   private final XboxController driverController = new XboxController(0);
   private final XboxController operatorController = new XboxController(1);
@@ -118,6 +120,9 @@ public class Robot extends TimedRobot {
     rightFront.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
     leftBack.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
     rightBack.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
+    climber.set(ControlMode.PercentOutput, operatorController.getYButton() ? 0.2 : 0.0);
+    climber.set(ControlMode.PercentOutput, operatorController.getAButton() ? -0.2 : 0.0);
+
 
     FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
     LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
