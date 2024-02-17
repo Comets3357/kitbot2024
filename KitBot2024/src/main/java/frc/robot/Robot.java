@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   private TalonSRX rightFront;
   private TalonSRX leftBack;
   private TalonSRX rightBack;
-  private TalonSRX climber;
+ 
 
  
   
@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
 
   private final VictorSPX FeedWheel = new VictorSPX(5);
   private final VictorSPX LaunchWheel = new VictorSPX(6);
+  private final VictorSPX climber = new VictorSPX(7);
 
 
   private final XboxController driverController = new XboxController(0);
@@ -84,7 +85,7 @@ public class Robot extends TimedRobot {
     leftBack = new TalonSRX(2);
     rightFront = new TalonSRX(3);
     rightBack = new TalonSRX(4);
-    climber = new TalonSRX(7);
+    
 
     leftFront.setInverted(true);
     leftBack.setInverted(true);
@@ -121,12 +122,25 @@ public class Robot extends TimedRobot {
     rightFront.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
     leftBack.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
     rightBack.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
-    climber.set(ControlMode.PercentOutput, operatorController.getYButton() ? 0.2 : 0.0);
-    climber.set(ControlMode.PercentOutput, operatorController.getAButton() ? -0.2 : 0.0);
+   
+
+    
 
 
     FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
     LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
+    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+
+    if(operatorController.getYButton()==true)
+    {
+      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+    }
+    else if (operatorController.getAButton()==true)
+    {
+      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+    }
+    
   }
 
   /**
