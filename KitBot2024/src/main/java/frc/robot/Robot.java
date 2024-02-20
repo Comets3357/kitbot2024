@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
 import edu.wpi.first.wpilibj.XboxController;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
@@ -127,20 +129,43 @@ public class Robot extends TimedRobot {
     
 
 
-    FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
-    LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
-    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+    //FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    //LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButt9++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++on()? 0.2 : 0.0);
     // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+
+    if(operatorController.getXButton()==true && operatorController.getBButton()==true)
+    {
+      FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
+      LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    }
+    else if(operatorController.getXButton()==true)
+    {
+      FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    }
+    else if (operatorController.getBButton()==true)
+    {
+      LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    }
+    else
+    {
+      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 0);
+      FeedWheel.set(VictorSPXControlMode.PercentOutput, 0);
+    }
 
     if(operatorController.getYButton()==true)
     {
-      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+      climber.set(VictorSPXControlMode.PercentOutput, 0.75);
     }
     else if (operatorController.getAButton()==true)
     {
-      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+      climber.set(VictorSPXControlMode.PercentOutput, -0.75);
     }
-    
+    else
+    {
+      climber.set(VictorSPXControlMode.PercentOutput, 0);
+    }
+      
   }
 
   /**
