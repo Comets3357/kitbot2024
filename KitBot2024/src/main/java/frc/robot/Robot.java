@@ -133,8 +133,20 @@ public class Robot extends TimedRobot {
     //LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
     // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButt9++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++on()? 0.2 : 0.0);
     // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
-
-    if(operatorController.getXButton()==true && operatorController.getBButton()==true)
+    if(operatorController.getLeftBumper()== true)
+    {
+      FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    }
+    else if(operatorController.getRightBumper()==true)
+    {
+      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    }
+    else if(operatorController.getRightBumper()==true && operatorController.getLeftBumper()==true)
+    {
+      FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
+      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    }
+    else if(operatorController.getXButton()==true && operatorController.getBButton()==true)
     {
       FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
       LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
