@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
@@ -129,16 +128,16 @@ public class Robot extends TimedRobot {
 
     FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
     LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
-    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
-    // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+    //climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+    //climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
 
     if(operatorController.getYButton()==true)
     {
-      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.2 : 0.0);
+      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButton()? 0.6 : 0.0);
     }
     else if (operatorController.getAButton()==true)
     {
-      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
+      climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.6 : 0.0);
     }
     
   }
