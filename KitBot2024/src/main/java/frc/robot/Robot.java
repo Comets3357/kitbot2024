@@ -123,8 +123,7 @@ public class Robot extends TimedRobot {
     leftFront.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
     rightFront.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
     leftBack.set(TalonSRXControlMode.PercentOutput , driverController.getLeftY());
-    rightBack.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());
-   
+    rightBack.set(TalonSRXControlMode.PercentOutput, driverController.getRightY());   
 
     
 
