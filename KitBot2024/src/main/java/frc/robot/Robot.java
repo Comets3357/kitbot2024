@@ -128,41 +128,41 @@ public class Robot extends TimedRobot {
     
 
 
-    //FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
-    //LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    FeedWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getLeftY());
+    LaunchWheel.set(VictorSPXControlMode.PercentOutput, operatorController.getRightY());
     // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getYButt9++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++on()? 0.2 : 0.0);
     // climber.set(VictorSPXControlMode.PercentOutput, operatorController.getAButton()? -0.2 : 0.0);
-    if(operatorController.getLeftBumper()== true)
-    {
-      FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
-    }
-    else if(operatorController.getRightBumper()==true)
-    {
-      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
-    }
-    else if(operatorController.getRightBumper()==true && operatorController.getLeftBumper()==true)
-    {
-      FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
-      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
-    }
-    else if(operatorController.getXButton()==true && operatorController.getBButton()==true)
-    {
-      FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
-      LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
-    }
-    else if(operatorController.getXButton()==true)
-    {
-      FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
-    }
-    else if (operatorController.getBButton()==true)
-    {
-      LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
-    }
-    else
-    {
-      LaunchWheel.set(VictorSPXControlMode.PercentOutput, 0);
-      FeedWheel.set(VictorSPXControlMode.PercentOutput, 0);
-    }
+    // if(operatorController.getLeftBumper()== true)
+    // {
+    //   FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    // }
+    // else if(operatorController.getRightBumper()==true)
+    // {
+    //   LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    // }
+    // else if(operatorController.getRightBumper()==true && operatorController.getLeftBumper()==true)
+    // {
+    //   FeedWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    //   LaunchWheel.set(VictorSPXControlMode.PercentOutput, 1);
+    // }
+    // else if(operatorController.getXButton()==true && operatorController.getBButton()==true)
+    // {
+    //   FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    //   LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    // }
+    // else if(operatorController.getXButton()==true)
+    // {
+    //   FeedWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    // }
+    // else if (operatorController.getBButton()==true)
+    // {
+    //   LaunchWheel.set(VictorSPXControlMode.PercentOutput, -1);
+    // }
+    // else
+    // {
+    //   LaunchWheel.set(VictorSPXControlMode.PercentOutput, 0);
+    //   FeedWheel.set(VictorSPXControlMode.PercentOutput, 0);
+    // }
 
     if(operatorController.getYButton()==true)
     {
