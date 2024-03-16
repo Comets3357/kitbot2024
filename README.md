@@ -1,1 +1,3 @@
-# kitbot2024
+# Kitbot 2024
+
+e<sup>iπ</sup>+1=0
